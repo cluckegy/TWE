@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>src/resources/fa-solid-900.ttf</file>
+        <file>src/resources/twe-logo.png</file>
+        <file>src/resources/down_arrow.png</file>
+        <file>src/resources/down_arrow_hover.png</file>
+    </qresource>
+</RCC>
