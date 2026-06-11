@@ -23,6 +23,7 @@
 #include <QPainter>
 #include <QPaintEvent>
 #include <QProgressBar>
+#include <QProcess>
 #include <QPushButton>
 #include <QPixmap>
 #include <QSettings>
@@ -38,6 +39,17 @@
 #include <QtMath>
 
 namespace {
+
+bool openExternalUrl(const QUrl &url)
+{
+#ifdef Q_OS_WIN
+    if (QProcess::startDetached(QStringLiteral("explorer.exe"),
+                                QStringList{url.toString()})) {
+        return true;
+    }
+#endif
+    return QDesktopServices::openUrl(url);
+}
 
 class AnimatedBackdrop final : public QWidget
 {
@@ -700,9 +712,14 @@ QWidget *MainWindow::createSettingsPage()
     connect(saveButton, &QPushButton::clicked, this, [this]() {
         if (saveSettings()) {
             showToast(QStringLiteral("تم حفظ بيانات الحساب."), false);
-            refreshQuota();
+            m_quotaService.checkQuota(m_landlineInput->text().trimmed(),
+                                      m_passwordInput->text());
         } else {
-            showToast(QStringLiteral("فشل حفظ الإعدادات. يرجى التحقق من المدخلات."), true);
+            const QString detail = CredentialStore::lastError();
+            showToast(detail.isEmpty()
+                          ? QStringLiteral("فشل حفظ الإعدادات. يرجى التحقق من المدخلات.")
+                          : detail,
+                      true);
         }
     });
 
@@ -809,7 +826,7 @@ QWidget *MainWindow::createAboutPage()
         auto *button = new QPushButton(buttonText);
         button->setObjectName(QStringLiteral("aboutButton"));
         connect(button, &QPushButton::clicked, this, [url]() {
-            QDesktopServices::openUrl(url);
+            openExternalUrl(url);
         });
 
         cardLayout->addWidget(iconLabel);
@@ -960,15 +977,15 @@ void MainWindow::loadQuotaCache()
 
 void MainWindow::refreshQuota()
 {
-    const QString number = m_landlineInput->text().trimmed();
-    const QString password = m_passwordInput->text();
-    if (number.isEmpty() || password.isEmpty()) {
-        showMessage(QStringLiteral("اكتب رقم الأرضي وكلمة المرور في صفحة الإعدادات أولاً."), true);
-        showToast(QStringLiteral("بيانات حساب My WE غير مكتملة."), true);
+    if (!m_quotaService.hasActiveSession()) {
+        showMessage(QStringLiteral(
+            "لا توجد جلسة تسجيل دخول نشطة. افتح الإعدادات واضغط حفظ وتسجيل الدخول أولاً."),
+            true);
+        showToast(QStringLiteral("سجّل الدخول أولاً قبل تحديث الاستهلاك."), true);
         m_navigation->setCurrentRow(2);
         return;
     }
-    m_quotaService.checkQuota(number, password);
+    m_quotaService.refreshSession();
 }
 
 void MainWindow::applyRefreshInterval()

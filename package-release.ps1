@@ -74,6 +74,9 @@ Get-ChildItem -LiteralPath (Join-Path $runtimeOut "platforms") -File | Where-Obj
 $runtimeZip = Join-Path $finalOut "TWE-runtime.zip"
 Compress-Archive -Path (Join-Path $runtimeOut "*") -DestinationPath $runtimeZip -CompressionLevel Optimal
 
+$portableZip = Join-Path $finalOut "TWE-portable.zip"
+Compress-Archive -Path (Join-Path $runtimeOut "*") -DestinationPath $portableZip -CompressionLevel Optimal
+
 # The public download contains only the native launcher.
 Copy-Item (Join-Path $root "launcher\x64\Release\TWE-Launcher.exe") `
           (Join-Path $finalOut "TWE.exe")
@@ -82,11 +85,15 @@ Copy-Item (Join-Path $root "launcher\x64\Release\TWE-Launcher.exe") `
 TWE Release Files
 =================
 
-Give users: TWE.exe
+Recommended user download: TWE-portable.zip
+Alternative small downloader: TWE.exe
 
 Upload TWE-runtime.zip to a GitHub Release using this exact asset name.
 The launcher downloads the latest release asset and installs it into:
 %USERPROFILE%\AppData\LocalLow\CL\TWE
+
+If Windows Security removes TWE.exe during the launcher install, use
+TWE-portable.zip instead, extract it to a normal folder, then run TWE.exe.
 "@ | Set-Content -LiteralPath (Join-Path $finalOut "UPLOAD-INSTRUCTIONS.txt") -Encoding UTF8
 
 # Clean source package.
@@ -193,3 +200,4 @@ Write-Host "  $sourceOut"
 Write-Host "  $sourceZip"
 Write-Host "  $finalOut"
 Write-Host "  $runtimeZip"
+Write-Host "  $portableZip"

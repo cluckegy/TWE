@@ -9,4 +9,5 @@ public:
     static QString loadPassword();
     static bool saveSecret(const QString &name, const QByteArray &value);
     static QByteArray loadSecret(const QString &name);
+    static QString lastError();
 };

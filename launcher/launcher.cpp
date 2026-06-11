@@ -260,7 +260,7 @@ void install()
 
     std::filesystem::remove(archive, error);
     if (!launchInstalledApp()) {
-        setStatus(L"TWE.exe was not found in the downloaded package.");
+        setStatus(L"TWE.exe is missing after install. Check Windows Security.");
         PostMessageW(g_window, kFinishedMessage, FALSE, 0);
         return;
     }
