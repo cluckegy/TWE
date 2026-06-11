@@ -28,124 +28,102 @@ Developed by **Mohamed Wael (MoGlitch)** and sponsored by **CodeLuck**.
 | OpenSSL | Secure HTTPS communication |
 | Visual Studio | Windows x64 build toolchain |
 
-## Features
 
-- View remaining and total WE quota.
-- Monitor quota usage and renewal dates.
-- Scan devices connected to the local network.
-- Search and filter detected devices.
-- Apply download and upload speed limits.
-- Block or restore internet access for selected devices.
-- Automatic quota refresh.
-- Secure local credential storage using Windows DPAPI.
-- Single-instance behavior: opening TWE again restores the running window.
-- Small launcher that downloads runtime files only on first launch.
 
-## Download
+**TWE** برنامج ويندوز خفيف لمتابعة استهلاك باقة WE ومعرفة الأجهزة المتصلة بالشبكة، مع أدوات للتحكم في السرعة أو حظر الأجهزة على شبكتك المحلية.
 
-1. Open the [latest release](https://github.com/cluckegy/TWE/releases/latest).
-2. Download `TWE.exe`.
-3. Run it and wait for the first-time installation to finish.
+تم تطوير البرنامج بواسطة **Mohamed Wael (MoGlitch)** وبرعاية **CodeLuck**.
 
-The launcher downloads the required runtime package and installs it into:
+## التحميل
 
-```text
-%USERPROFILE%\AppData\LocalLow\CL\TWE
-```
+1. افتح صفحة [آخر إصدار](https://github.com/cluckegy/TWE/releases/latest).
+2. حمّل ملف `TWE-portable.zip`.
+3. فك الضغط في أي فولدر مناسب.
+4. شغّل `TWE.exe`.
 
-Future launches open the installed application directly.
+`TWE-portable.zip` هو الملف الموصى به للمستخدمين، لأنه يحتوي البرنامج وكل ملفات التشغيل المطلوبة.
 
-## Network Control Requirements
+يوجد أيضًا ملف `TWE.exe` منفصل في صفحة الإصدار. هذا مجرد لانشر صغير يقوم بتحميل ملفات التشغيل أول مرة، لكن النسخة المحمولة `TWE-portable.zip` أفضل وأسهل لمعظم المستخدمين.
 
-Device scanning works with standard Windows networking APIs.
+## المميزات
 
-Speed limiting and blocking features require
-[Npcap](https://npcap.com/#download) to be installed. Run TWE with suitable
-permissions when using network control features.
+- عرض المتبقي والمستخدم من باقة WE.
+- عرض ميعاد التجديد وانتهاء الباقة.
+- تسجيل الدخول إلى My WE مع دعم Captcha.
+- حفظ بيانات الدخول محليًا بشكل آمن باستخدام Windows DPAPI.
+- فحص الأجهزة المتصلة بالشبكة المحلية.
+- البحث والتصفية داخل قائمة الأجهزة.
+- تحديد سرعة التحميل والرفع لأجهزة معينة.
+- حظر أو إعادة تشغيل الإنترنت لأجهزة معينة.
+- تحديث تلقائي لبيانات الباقة.
+- يعمل في الخلفية من خلال System Tray.
 
-Only use network control features on networks and devices you own or are
-authorized to administer.
+## المتطلبات
 
-## Build From Source
+- Windows 10 أو أحدث.
+- جهاز 64-bit.
+- اتصال إنترنت لتسجيل الدخول وجلب بيانات الباقة.
+- حساب My WE صحيح.
 
-### Requirements
+ميزات فحص الأجهزة الأساسية تعمل مباشرة. ميزات تحديد السرعة والحظر تحتاج تثبيت [Npcap](https://npcap.com/#download)، وقد تحتاج تشغيل البرنامج كمسؤول Administrator.
 
-- Windows 10 or newer, x64
-- Visual Studio with Desktop development with C++
-- Qt 5.15.2 MSVC x64
-- Npcap SDK
-- OpenSSL 1.1 x64 runtime
+## ملاحظات مهمة
 
-### Visual Studio
+- استخدم أدوات التحكم في الشبكة فقط على شبكة تملكها أو لديك إذن بإدارتها.
+- بعض برامج الحماية قد تظهر تحذيرًا لأن البرنامج يستخدم وظائف متقدمة للشبكات مثل فحص الأجهزة والتحكم في الاتصال.
+- إذا ظهر تحذير من Windows Security، تأكد أنك حملت البرنامج من صفحة GitHub الرسمية فقط.
+- إذا واجهت مشكلة في اللانشر، استخدم `TWE-portable.zip` بدلًا منه.
 
-Open:
+## حل المشاكل الشائعة
 
-```text
-TWE.sln
-```
+### البرنامج لا يفتح أو ملف TWE.exe اختفى
 
-Select `Release | x64`, then build the solution.
+غالبًا Windows Security حذف الملف أو وضعه في الحجر. حمّل `TWE-portable.zip` من صفحة الإصدار الرسمية، ثم فك الضغط في فولدر جديد وشغّل البرنامج.
 
-The solution contains:
+### تظهر رسالة Captcha ولا تظهر صورة
 
-- `TWE`: the main Qt desktop application.
-- `TWE-Launcher`: the native first-run downloader.
+حمّل آخر إصدار من صفحة Releases. الإصدارات القديمة قد لا تحتوي أحدث إصلاحات تسجيل الدخول.
 
-### qmake
+### لا تظهر الأجهزة أو لا تعمل أدوات التحكم
 
-```bat
-D:\Qt\5.15.2\msvc2019_64\bin\qmake.exe TWE.pro
-nmake /f Makefile.Release
-```
+ثبّت [Npcap](https://npcap.com/#download)، ثم شغّل TWE كمسؤول Administrator. تأكد أيضًا أنك اخترت كارت الشبكة الصحيح من داخل البرنامج.
 
-Paths may need to be adjusted to match your Qt installation.
+### روابط GitHub أو Discord لا تفتح
 
-## Create Distribution Files
+أغلق المتصفح وافتحه بشكل طبيعي، أو شغّل آخر إصدار من TWE. الإصدارات الجديدة تفتح الروابط بطريقة أفضل عند تشغيل البرنامج كمسؤول.
 
-Run the packaging script from PowerShell:
+## الخصوصية
+
+- رقم الأرضي يتم حفظه محليًا على جهازك.
+- كلمة المرور والجلسة يتم حمايتهم باستخدام Windows DPAPI.
+- بيانات الدخول المحمية لا يمكن فكها إلا من نفس مستخدم ويندوز.
+- البرنامج يتصل بخدمات WE لتسجيل الدخول وجلب بيانات الباقة فقط.
+
+## روابط
+
+- [آخر إصدار](https://github.com/cluckegy/TWE/releases/latest)
+- [كل الإصدارات](https://github.com/cluckegy/TWE/releases)
+- [Discord](https://discord.gg/YrtTNQwFrH)
+- [GitHub](https://github.com/cluckegy/TWE)
+
+## للمطورين
+
+المشروع مبني باستخدام C++17 و Qt 5.15.2 على Windows x64.
+
+لإنشاء ملفات التوزيع:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\package-release.ps1
 ```
 
-It creates:
+الملفات النهائية تظهر في:
 
 ```text
-Export/
-|-- TWE-Final/
-|   |-- TWE.exe
-|   |-- TWE-runtime.zip
-|   `-- UPLOAD-INSTRUCTIONS.txt
-|-- TWE-Source/
-`-- TWE-Source.zip
+Export/TWE-Final/
+|-- TWE.exe
+|-- TWE-portable.zip
+|-- TWE-runtime.zip
+`-- UPLOAD-INSTRUCTIONS.txt
 ```
 
-## Publish a GitHub Release
-
-1. Push the source code to this repository.
-2. Create a new GitHub Release, for example `v1.0.0`.
-3. Upload `Export/TWE-Final/TWE-runtime.zip`.
-4. Keep the asset name exactly `TWE-runtime.zip`.
-5. Upload `Export/TWE-Final/TWE.exe` for users.
-
-The launcher downloads:
-
-```text
-https://github.com/cluckegy/TWE/releases/latest/download/TWE-runtime.zip
-```
-
-## Privacy
-
-- The landline number is stored locally.
-- The password and session data are protected using Windows DPAPI.
-- Protected credentials can only be decrypted by the same Windows user.
-- TWE communicates with WE services to authenticate and retrieve quota data.
-
-## Community
-
-- [GitHub](https://github.com/cluckegy/TWE)
-- [Discord](https://discord.gg/YrtTNQwFrH)
-
-## License
-
-Review the repository license before using, modifying, or redistributing TWE.
+عند نشر إصدار جديد على GitHub، ارفع `TWE-portable.zip` للمستخدمين، وارفع `TWE-runtime.zip` باسم ثابت إذا كنت تريد دعم اللانشر.
