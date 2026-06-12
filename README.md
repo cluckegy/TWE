@@ -1,5 +1,10 @@
-<img width="1179" height="760" alt="image" src="https://github.com/user-attachments/assets/4302d626-8a2f-4a72-9edd-bc90167182de" />
 # TWE
+<img width="1254" height="1254" alt="twe-logo" src="https://github.com/user-attachments/assets/ee739c68-5eae-4705-9f8c-86c7ead0ed83" />
+<img width="1179" height="760" alt="image" src="https://github.com/user-attachments/assets/db5da4e4-ff91-4a4e-909a-feb825771053" />
+<img width="1920" height="1049" alt="image" src="https://github.com/user-attachments/assets/329dcb96-69b0-4c0e-851b-245c2694c640" />
+
+
+
 
 [![C++](https://img.shields.io/badge/C%2B%2B-17-00599C?style=for-the-badge&logo=cplusplus&logoColor=white)](https://isocpp.org/)
 [![Qt](https://img.shields.io/badge/Qt-5.15.2-41CD52?style=for-the-badge&logo=qt&logoColor=white)](https://www.qt.io/)
