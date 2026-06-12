@@ -1,3 +1,4 @@
+<img width="1179" height="760" alt="image" src="https://github.com/user-attachments/assets/4302d626-8a2f-4a72-9edd-bc90167182de" />
 # TWE
 
 [![C++](https://img.shields.io/badge/C%2B%2B-17-00599C?style=for-the-badge&logo=cplusplus&logoColor=white)](https://isocpp.org/)
